@@ -12,50 +12,45 @@ namespace lab4
     {
         static void Main()
         {
-            using (WebScanner scanner = new())
+            using WebScanner scanner = new();
+            string fileName = "result.csv";
+            using StreamWriter streamWriter = new(fileName);
+
+            using CsvWriter csvWriter = new(streamWriter, CultureInfo.InvariantCulture);
+            streamWriter.WriteLine("sep=,");
+
+            scanner.EmailsFound += (page, emails) =>
             {
-                string fileName = "result.csv";
-                StreamWriter streamWriter = new(fileName);
-
-                CsvWriter csvWriter = new(streamWriter, CultureInfo.InvariantCulture);
-                streamWriter.WriteLine("sep=,");
-
-                scanner.EmailsFound += (page, emails) =>
+                Console.WriteLine($"Page:");
+                Console.WriteLine($"        {page}");
+                Console.WriteLine($"Emails:");
+                foreach (string email in emails)
                 {
-                    Console.WriteLine($"Page:");
-                    Console.WriteLine($"        {page}");
-                    Console.WriteLine($"Emails:");
-                    foreach (string email in emails)
-                    {
-                        Console.WriteLine($"        {email}");
-                    }
-                    Console.Write('\n');
-                };
+                    Console.WriteLine($"        {email}");
+                }
+                Console.Write('\n');
+            };
 
-                scanner.EmailsFound += (page, emails) =>
+            scanner.EmailsFound += (page, emails) =>
+            {
+                dynamic record = new ExpandoObject();
+                record.Page = page.ToString();
+
+                string e = string.Empty;
+                foreach (string email in emails)
                 {
-                    dynamic record = new ExpandoObject();
-                    record.Page = page.ToString();
+                    e += email + '\n';
+                }
+                record.Emails = e;
 
-                    string e = string.Empty;
-                    foreach (string email in emails)
-                    {
-                        e += email + '\n';
-                    }
-                    record.Emails = e;
+                List<dynamic> records = new();
+                records.Add(record);
+                csvWriter.WriteRecords(records);
+            };
 
-                    List<dynamic> records = new();
-                    records.Add(record);
-                    csvWriter.WriteRecords(records);
-                };
-
-                Console.WriteLine("Web Scanner started.");
-                scanner.Scan(new Uri("https://www.susu.ru/"), 10);
-                Console.WriteLine($"Done! Data write in {fileName} file.");
-
-                csvWriter.Dispose();
-                streamWriter.Dispose();
-            }
+            Console.WriteLine("Web Scanner started.");
+            scanner.Scan(new Uri("https://www.susu.ru/"), 10);
+            Console.WriteLine($"Done! Data write in {fileName} file.");
         }
     }
 }

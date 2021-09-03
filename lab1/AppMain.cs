@@ -6,7 +6,7 @@ namespace lab1
 {
     static class AppMain
     {
-        static Dictionary<string, Rectangle> rectangles = new();
+        static readonly Dictionary<string, Rectangle> rectangles = new();
 
         static void PrintRect()
         {

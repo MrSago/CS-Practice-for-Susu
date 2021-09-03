@@ -7,38 +7,38 @@ namespace lab2
     {
         static Vector v1, v2;
 
-        static void printVecInfo()
+        static void PrintVecInfo()
         {
             Console.WriteLine($"v1({v1.X}, {v1.Y})");
             Console.WriteLine($"v2({v2.X}, {v2.Y})");
         }
 
-        static void printVecInfo(Vector v)
+        static void PrintVecInfo(Vector v)
         {
             Console.WriteLine($"v({v.X}, {v.Y})");
         }
 
-        static void vecSum()
+        static void VecSum()
         {
             Vector v = v1 + v2;
             Console.Write("v1 + v2 = ");
-            printVecInfo(v);
+            PrintVecInfo(v);
         }
 
-        static void vecDif()
+        static void VecDif()
         {
             Vector v = v1 - v2;
             Console.Write("v1 - v2 = ");
-            printVecInfo(v);
+            PrintVecInfo(v);
         }
 
-        static void vecAbs()
+        static void VecAbs()
         {
             Console.WriteLine($"|v1| = {v1.Abs()}");
             Console.WriteLine($"|v2| = {v2.Abs()}");
         }
 
-        static void scalVec()
+        static void ScalVec()
         {
             double a;
             try
@@ -53,9 +53,9 @@ namespace lab2
             }
             Vector new_v1 = v1 * a;
             Vector new_v2 = v2 * a;
-            printVecInfo();
-            printVecInfo(new_v1);
-            printVecInfo(new_v2);
+            PrintVecInfo();
+            PrintVecInfo(new_v1);
+            PrintVecInfo(new_v2);
         }
 
         static void Main()
@@ -97,23 +97,23 @@ namespace lab2
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.D1:
-                        printVecInfo();
+                        PrintVecInfo();
                     break;
 
                     case ConsoleKey.D2:
-                        vecSum();
+                        VecSum();
                     break;
 
                     case ConsoleKey.D3:
-                        vecDif();
+                        VecDif();
                     break;
 
                     case ConsoleKey.D4:
-                        vecAbs();
+                        VecAbs();
                     break;
 
                     case ConsoleKey.D5:
-                        scalVec();
+                        ScalVec();
                     break;
 
                     case ConsoleKey.D0:
