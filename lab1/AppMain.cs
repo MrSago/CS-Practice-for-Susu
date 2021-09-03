@@ -205,6 +205,10 @@ namespace lab1
             try
             {
                 rectangle = Rectangle.UnionRect(rectangles[key1], rectangles[key2]);
+                if (rectangle == null)
+                {
+                    throw new Exception("Null object");
+                }
             }
             catch
             {
@@ -212,7 +216,7 @@ namespace lab1
                 return;
             }
 
-            Console.Write("Введите ключ нового прямоугольника");
+            Console.Write("Введите ключ нового прямоугольника:");
             string new_key = Console.ReadLine();
             if (string.IsNullOrEmpty(new_key) || rectangles.ContainsKey(new_key))
             {
@@ -220,6 +224,33 @@ namespace lab1
                 return;
             }
             rectangles.Add(new_key, rectangle);
+        }
+
+        static void SetRectSize()
+        {
+            Console.Write("Введите ключ прямоугольника: ");
+            string key = Console.ReadLine();
+            if (string.IsNullOrEmpty(key) || !rectangles.ContainsKey(key))
+            {
+                Console.WriteLine("Ошибка ввода ключа!");
+            }
+
+            float weight, height;
+            Console.WriteLine("Введите размеры прямоугольника:");
+            try
+            {
+                Console.Write("weight:");
+                weight = float.Parse(Console.ReadLine());
+                Console.Write("height:");
+                height = float.Parse(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка ввода значений!");
+                return;
+            }
+
+            rectangles[key].SetSize(weight, height);
         }
 
         static void Main()
@@ -234,6 +265,7 @@ namespace lab1
                 Console.WriteLine("4.Переместить прямоугольник");
                 Console.WriteLine("5.Построение наименьшего из двух");
                 Console.WriteLine("6.Построение пересечения");
+                Console.WriteLine("7.Установить размер");
                 Console.WriteLine("0.Выход");
                 switch (Console.ReadKey(true).Key)
                 {
@@ -259,6 +291,10 @@ namespace lab1
 
                     case ConsoleKey.D6:
                         UnionRect();
+                    break;
+
+                    case ConsoleKey.D7:
+                        SetRectSize();
                     break;
 
                     case ConsoleKey.D0:

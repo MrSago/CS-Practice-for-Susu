@@ -12,10 +12,10 @@ namespace lab1
     {
         private float _x1, _y1, _x2, _y2;
 
-        public float X1 { get => _x1; set => _x1 = value; }
-        public float Y1 { get => _y1; set => _y1 = value; }
-        public float X2 { get => _x2; set => _x2 = value; }
-        public float Y2 { get => _y2; set => _y2 = value; }
+        public float X1 => _x1;
+        public float Y1 => _y1;
+        public float X2 => _x2;
+        public float Y2 => _y2;
 
         public Rectangle(float x1, float y1, float x2, float y2)
         {
@@ -27,6 +27,12 @@ namespace lab1
             _y1 = Math.Min(y1, y2);
             _x2 = Math.Max(x1, x2);
             _y2 = Math.Max(y1, y2);
+        }
+
+        public void SetSize(float weight, float height)
+        {
+            _x2 = _x1 + weight;
+            _y2 = _y1 + height;
         }
 
         public void Move(Direction dir, float value)
