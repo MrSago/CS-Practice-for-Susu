@@ -52,7 +52,8 @@ namespace lab3
         {
             public int Compare(Airplane x, Airplane y)
             {
-                return x.Weight.CompareTo(y.Weight);
+                int val = x.Weight.CompareTo(y.Weight);
+                return val == 0 ? x.Number.CompareTo(y.Number) : val;
             }
         }
         public void SortByWeight()
