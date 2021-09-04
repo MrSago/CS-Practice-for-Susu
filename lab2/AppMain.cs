@@ -1,23 +1,26 @@
 ﻿
 using System;
+using System.Collections.Generic;
 
 namespace lab2
 {
     class AppMain
     {
         static Vector v1, v2;
+        static bool ContinueMenu = true;
 
+        // Key1
         static void PrintVecInfo()
         {
             Console.WriteLine($"v1({v1.X}, {v1.Y})");
             Console.WriteLine($"v2({v2.X}, {v2.Y})");
         }
-
         static void PrintVecInfo(Vector v)
         {
             Console.WriteLine($"v({v.X}, {v.Y})");
         }
 
+        // Key2
         static void VecSum()
         {
             Vector v = v1 + v2;
@@ -25,6 +28,7 @@ namespace lab2
             PrintVecInfo(v);
         }
 
+        // Key3
         static void VecDif()
         {
             Vector v = v1 - v2;
@@ -32,12 +36,14 @@ namespace lab2
             PrintVecInfo(v);
         }
 
+        // Key4
         static void VecAbs()
         {
             Console.WriteLine($"|v1| = {v1.Abs()}");
             Console.WriteLine($"|v2| = {v2.Abs()}");
         }
 
+        // Key5
         static void ScalVec()
         {
             double a;
@@ -56,6 +62,12 @@ namespace lab2
             PrintVecInfo();
             PrintVecInfo(new_v1);
             PrintVecInfo(new_v2);
+        }
+
+        // Key0
+        static void ExitMenu()
+        {
+            ContinueMenu = false;
         }
 
         static void Main()
@@ -84,8 +96,17 @@ namespace lab2
             v1 = new(xv1, yv1);
             v2 = new(xv2, yv2);
 
-            bool cont = true;
-            while (cont)
+            Menu<ConsoleKey> menu = new(new Dictionary<ConsoleKey, Action>
+            {
+                { ConsoleKey.D1, PrintVecInfo },
+                { ConsoleKey.D2, VecSum },
+                { ConsoleKey.D3, VecDif },
+                { ConsoleKey.D4, VecAbs },
+                { ConsoleKey.D5, ScalVec },
+                { ConsoleKey.D0, ExitMenu }
+            });
+
+            while (ContinueMenu)
             {
                 Console.WriteLine("\nМеню:");
                 Console.WriteLine("1.Информация о векторах");
@@ -94,35 +115,9 @@ namespace lab2
                 Console.WriteLine("4.Длины векторов |v1|, |v2|");
                 Console.WriteLine("5.Умножение на скаляр v1 и v2");
                 Console.WriteLine("0.Выход");
-                switch (Console.ReadKey(true).Key)
+                if (!menu.Invoke(Console.ReadKey(true).Key))
                 {
-                    case ConsoleKey.D1:
-                        PrintVecInfo();
-                    break;
-
-                    case ConsoleKey.D2:
-                        VecSum();
-                    break;
-
-                    case ConsoleKey.D3:
-                        VecDif();
-                    break;
-
-                    case ConsoleKey.D4:
-                        VecAbs();
-                    break;
-
-                    case ConsoleKey.D5:
-                        ScalVec();
-                    break;
-
-                    case ConsoleKey.D0:
-                        cont = false;
-                    break;
-
-                    default:
-                        Console.WriteLine("Неизвестная опция!");
-                    break;
+                    Console.WriteLine("\nНеизвестная опция!");
                 }
             }
         }

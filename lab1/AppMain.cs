@@ -7,7 +7,9 @@ namespace lab1
     static class AppMain
     {
         static readonly Dictionary<string, Rectangle> rectangles = new();
+        static bool ContinueMenu = true;
 
+        // Key1
         static void PrintRect()
         {
             if (rectangles.Count <= 0)
@@ -22,6 +24,7 @@ namespace lab1
             }
         }
 
+        // Key2
         static void AddRect()
         {
             Console.Write("\nВведите ключ: ");
@@ -60,6 +63,7 @@ namespace lab1
             }
         }
 
+        // Key3
         static void DelRect()
         {
             PrintRect();
@@ -84,6 +88,7 @@ namespace lab1
             rectangles.Remove(key);
         }
 
+        // Key4
         static void MoveRect()
         {
             PrintRect();
@@ -139,6 +144,7 @@ namespace lab1
             Console.WriteLine($"Новые координаты: ({rectangles[key].X1}, {rectangles[key].Y1}), ({rectangles[key].X2}, {rectangles[key].Y2})");
         }
 
+        // Key5
         static void MinRect()
         {
             PrintRect();
@@ -173,7 +179,7 @@ namespace lab1
                 return;
             }
 
-            Console.Write("Введите ключ нового прямоугольника");
+            Console.Write("Введите ключ нового прямоугольника: ");
             string new_key = Console.ReadLine();
             if (string.IsNullOrEmpty(new_key) || rectangles.ContainsKey(new_key))
             {
@@ -183,6 +189,7 @@ namespace lab1
             rectangles.Add(new_key, rectangle);
         }
 
+        // Key6
         static void UnionRect()
         {
             PrintRect();
@@ -231,6 +238,7 @@ namespace lab1
             rectangles.Add(new_key, rectangle);
         }
 
+        // Key7
         static void SetRectSize()
         {
             Console.Write("Введите ключ прямоугольника: ");
@@ -241,12 +249,12 @@ namespace lab1
             }
 
             float weight, height;
-            Console.WriteLine("Введите размеры прямоугольника:");
+            Console.WriteLine("Введите размеры прямоугольника: ");
             try
             {
-                Console.Write("weight:");
+                Console.Write("weight: ");
                 weight = float.Parse(Console.ReadLine());
-                Console.Write("height:");
+                Console.Write("height: ");
                 height = float.Parse(Console.ReadLine());
             }
             catch
@@ -258,10 +266,26 @@ namespace lab1
             rectangles[key].SetSize(weight, height);
         }
 
+        static void ExitMenu()
+        {
+            ContinueMenu = false;
+        }
+
         static void Main()
         {
-            bool cont = true;
-            while (cont)
+            Menu<ConsoleKey> menu = new(new Dictionary<ConsoleKey, Action>
+            { 
+                { ConsoleKey.D1, AddRect },
+                { ConsoleKey.D2, DelRect },
+                { ConsoleKey.D3, PrintRect },
+                { ConsoleKey.D4, MoveRect },
+                { ConsoleKey.D5, MinRect },
+                { ConsoleKey.D6, UnionRect },
+                { ConsoleKey.D7, SetRectSize },
+                { ConsoleKey.D0, ExitMenu },
+            });
+
+            while (ContinueMenu)
             {
                 Console.WriteLine("\nМеню:");
                 Console.WriteLine("1.Добавить прямоугольник");
@@ -272,43 +296,9 @@ namespace lab1
                 Console.WriteLine("6.Построение пересечения");
                 Console.WriteLine("7.Установить размер");
                 Console.WriteLine("0.Выход");
-                switch (Console.ReadKey(true).Key)
+                if (!menu.Invoke(Console.ReadKey(true).Key))
                 {
-                    case ConsoleKey.D1:
-                        AddRect();
-                    break;
-
-                    case ConsoleKey.D2:
-                        DelRect();
-                    break;
-
-                    case ConsoleKey.D3:
-                        PrintRect();
-                    break;
-
-                    case ConsoleKey.D4:
-                        MoveRect();
-                    break;
-
-                    case ConsoleKey.D5:
-                        MinRect();
-                    break;
-
-                    case ConsoleKey.D6:
-                        UnionRect();
-                    break;
-
-                    case ConsoleKey.D7:
-                        SetRectSize();
-                    break;
-
-                    case ConsoleKey.D0:
-                        cont = false;
-                    break;
-
-                    default:
-                        Console.WriteLine("Неизвестная опция!");
-                    break;
+                    Console.WriteLine("\nНеизвестная опция!");
                 }
             }
         }

@@ -7,7 +7,10 @@ namespace lab3
     class AppMain
     {
         static Airline airline = new();
+        static bool ContinueMenu = true;
+        static string fileNameXML = "result.xml";
 
+        // Key1
         static void SortPrint()
         {
             airline.SortByWeight();
@@ -22,6 +25,7 @@ namespace lab3
             }
         }
 
+        // Key2
         static void FirstSixPlanes()
         {
             airline.SortByWeight();
@@ -37,6 +41,7 @@ namespace lab3
             }
         }
 
+        // Key3
         static void LastTwoPlanesNum()
         {
             airline.SortByWeight();
@@ -47,10 +52,39 @@ namespace lab3
             }
         }
 
+        // Key4
+        static void PrintAvarageWeight()
+        {
+            Console.WriteLine($"\nAvarage Weight: {airline.AvarageWeight}");
+        }
+
+        // Key5
+        static void SaveToXml()
+        {
+            airline.ToXml(fileNameXML);
+        }
+
+        // Key6
+        static void LoadFromXml()
+        {
+            try
+            {
+                airline = Airline.FromXml(fileNameXML);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"\n{e.Message}");
+            }
+        }
+
+        // Key0
+        static void ExitMenu()
+        {
+            ContinueMenu = false;
+        }
+
         static void Main()
         {
-            string fileNameXML = "result.xml";
-
             List<string> crew1 = new()
             {
                 "Petya",
@@ -78,8 +112,18 @@ namespace lab3
             airline.Add(new AirPass(AirplaneType.Boeing747, "RA-002", 150, crew2));
             airline.Add(new AirPass(AirplaneType.Boeing737, "RA-004", 450, crew3));
 
-            bool cont = true;
-            while (cont)
+            Menu<ConsoleKey> menu = new(new Dictionary<ConsoleKey, Action>
+            {
+                { ConsoleKey.D1, SortPrint },
+                { ConsoleKey.D2, FirstSixPlanes },
+                { ConsoleKey.D3, LastTwoPlanesNum },
+                { ConsoleKey.D4, PrintAvarageWeight },
+                { ConsoleKey.D5, SaveToXml },
+                { ConsoleKey.D6, LoadFromXml },
+                { ConsoleKey.D0, ExitMenu }
+            });
+
+            while (ContinueMenu)
             {
                 Console.WriteLine("\nМеню:");
                 Console.WriteLine("1.Упорядочить и вывести данные авиалайнеров");
@@ -89,46 +133,9 @@ namespace lab3
                 Console.WriteLine("5.Запись в XML");
                 Console.WriteLine("6.Чтение из XML");
                 Console.WriteLine("0.Выход");
-                switch (Console.ReadKey(true).Key)
+                if (!menu.Invoke(Console.ReadKey(true).Key))
                 {
-                    case ConsoleKey.D1:
-                        SortPrint();
-                    break;
-
-                    case ConsoleKey.D2:
-                        FirstSixPlanes();
-                    break;
-
-                    case ConsoleKey.D3:
-                        LastTwoPlanesNum();
-                    break;
-
-                    case ConsoleKey.D4:
-                        Console.WriteLine($"\nAvarage Weight: {airline.AvarageWeight}");
-                    break;
-
-                    case ConsoleKey.D5:
-                        airline.ToXml(fileNameXML);
-                    break;
-
-                    case ConsoleKey.D6:
-                        try
-                        {
-                            airline = Airline.FromXml(fileNameXML);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine($"\n{e.Message}");
-                        }
-                    break;
-
-                    case ConsoleKey.D0:
-                        cont = false;
-                    break;
-
-                    default:
-                        Console.WriteLine("\nUnknown option!");
-                    break;
+                    Console.WriteLine("\nНеизвестная опция!");
                 }
             }
         }
