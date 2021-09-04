@@ -99,6 +99,11 @@ namespace lab1
                 Console.WriteLine("Ошибка ввода ключа!");
                 return;
             }
+            if (!rectangles.ContainsKey(key))
+            {
+                Console.WriteLine("Такой ключ не существует!");
+                return;
+            }
 
             Console.WriteLine("Выберите направление стрелками");
             Direction direction;
