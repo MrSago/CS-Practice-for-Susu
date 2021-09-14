@@ -47,7 +47,6 @@ namespace lab3
             }
         }
 
-
         private class ByWeightComparer : IComparer<Airplane>
         {
             public int Compare(Airplane x, Airplane y)
