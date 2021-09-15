@@ -8,11 +8,12 @@ using CsvHelper;
 
 namespace lab4
 {
-    class AppMain
+    internal static class AppMain
     {
         static void Main()
         {
             using WebScanner scanner = new();
+
             string fileName = "result.csv";
             using StreamWriter streamWriter = new(fileName);
 
@@ -49,7 +50,7 @@ namespace lab4
             };
 
             Console.WriteLine("Web Scanner started.");
-            scanner.Scan(new Uri("https://www.susu.ru/"), 10);
+            scanner.Scan(new Uri("https://www.susu.ru/"), 20);
             Console.WriteLine($"Done! Data write in {fileName} file.");
         }
     }

@@ -3,7 +3,7 @@ using System;
 
 namespace lab1
 {
-    static class AppMain
+    internal static class AppMain
     {
         static void PrintInfo()
         {
