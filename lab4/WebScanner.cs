@@ -10,15 +10,17 @@ namespace lab4
 {
     class WebScanner : IDisposable
     {
-        private readonly HashSet<Uri> _procLinks = new();
         private readonly WebClient _webClient = new();
+        private readonly HashSet<Uri> _procLinks = new();
         private readonly HashSet<string> _ignoreFiles = new()
             { ".pdf", ".xml", ".doc", ".docx" };
         private string _domain;
         private int _pageCount;
         private int _maxLevel;
 
-        public event Action<Uri, IEnumerable<string>> EmailsFound;
+        public delegate void EFound(Uri uri, IEnumerable<string> list); 
+        public event EFound EmailsFound;
+
         private void OnEmailsFound(Uri page, ref HashSet<string> emails)
         {
             EmailsFound?.Invoke(page, emails);

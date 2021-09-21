@@ -20,7 +20,7 @@ namespace lab1
 
         static void Main()
         {
-            Menu menu = new();
+            IMenu<ConsoleKey> menu = new MenuLab1();
 
             while (menu.ContinueMenu)
             {

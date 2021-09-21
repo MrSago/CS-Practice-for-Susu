@@ -39,7 +39,7 @@ namespace lab2
                 return;
             }
 
-            Menu menu = new(new Vector(xv1, yv1), new Vector(xv2, yv2));
+            IMenu<ConsoleKey> menu = new MenuLab2(new Vector(xv1, yv1), new Vector(xv2, yv2));
 
             while (menu.ContinueMenu)
             {

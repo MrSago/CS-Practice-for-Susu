@@ -19,7 +19,7 @@ namespace lab3
 
         static void Main()
         {
-            Menu menu = new();
+            IMenu<ConsoleKey> menu = new MenuLab3();
 
             while (menu.ContinueMenu)
             {

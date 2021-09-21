@@ -3,7 +3,6 @@ using System;
 
 namespace lab2
 {
-
     class Vector
     {
         private double _x, _y;

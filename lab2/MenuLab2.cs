@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace lab2
 {
-    class Menu
+    class MenuLab2 : IMenu<ConsoleKey>
     {
         private readonly DictionaryMethods<ConsoleKey> _method;
         private bool _continueMenu = true;
@@ -14,7 +14,7 @@ namespace lab2
 
         private readonly Vector _v1, _v2;
 
-        public Menu(Vector v1, Vector v2)
+        public MenuLab2(Vector v1, Vector v2)
         {
             _method = new(new Dictionary<ConsoleKey, Action>
             {

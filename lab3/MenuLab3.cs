@@ -1,12 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace lab3
 {
-    class Menu
+    class MenuLab3 : IMenu<ConsoleKey>
     {
         private readonly DictionaryMethods<ConsoleKey> _method;
         private bool _continueMenu = true;
@@ -17,7 +15,7 @@ namespace lab3
         private Airline airline = new();
         private const string fileNameXML = "result.xml";
 
-        public Menu()
+        public MenuLab3()
         {
             _method = new(new Dictionary<ConsoleKey, Action>
             {
@@ -132,3 +130,4 @@ namespace lab3
         }
     }
 }
+
