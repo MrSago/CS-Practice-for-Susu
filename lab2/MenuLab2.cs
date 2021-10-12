@@ -60,8 +60,8 @@ namespace lab2
         // Key4
         private void VecAbs()
         {
-            Console.WriteLine($"|v1| = {_v1.Abs()}");
-            Console.WriteLine($"|v2| = {_v2.Abs()}");
+            Console.WriteLine($"|v1| = {Math.Round(_v1.Abs(), 3)}");
+            Console.WriteLine($"|v2| = {Math.Round(_v2.Abs(), 3)}");
         }
 
         // Key5
