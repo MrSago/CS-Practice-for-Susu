@@ -66,29 +66,56 @@ namespace lab1
 
         static public Rectangle MinRect(Rectangle r1, Rectangle r2)
         {
-            return new Rectangle(Math.Min(r1.X1, r2.X1), Math.Min(r1.Y1, r2.Y1), Math.Max(r1.X1, r2.X2), Math.Max(r1.Y1, r2.Y2));
+            return new Rectangle(Math.Min(r1.X1, r2.X1),
+                                 Math.Min(r1.Y1, r2.Y1),
+                                 Math.Max(r1.X1, r2.X2),
+                                 Math.Max(r1.Y1, r2.Y2));
         }
 
         static public Rectangle UnionRect(Rectangle r1, Rectangle r2)
         {
-            if (r2.X1 < r1.X1 && r1.X1 < r2.X2 && r2.Y1 < r1.Y1 && r1.Y1 < r2.Y2)
+            if (r2.X1 <= r1.X1 &&
+                r1.X1 <= r2.X2 &&
+                r2.Y1 <= r1.Y1 &&
+                r1.Y1 <= r2.Y2)  
             {
-                return new Rectangle(r1.X1, r1.Y1, Math.Min(r1.X2, r2.X2), Math.Min(r1.Y2, r2.Y2));
+                return new Rectangle(r1.X1,
+                                     r1.Y1,
+                                     Math.Min(r1.X2, r2.X2),
+                                     Math.Min(r1.Y2, r2.Y2));
             }
 
-            if (r1.X1 < r2.X1 && r2.X1 < r1.X2 && r1.Y1 < r2.Y1 && r2.Y1 < r1.Y2)
+            if (r1.X1 <= r2.X1 &&
+                r2.X1 <= r1.X2 &&
+                r1.Y1 <= r2.Y1 &&
+                r2.Y1 <= r1.Y2)
             {
-                return new Rectangle(r2.X1, r2.Y1, Math.Min(r1.X2, r2.X2), Math.Min(r1.Y2, r2.Y2));
+                return new Rectangle(r2.X1,
+                                     r2.Y1,
+                                     Math.Min(r1.X2, r2.X2),
+                                     Math.Min(r1.Y2, r2.Y2));
             }
 
-            if (r1.X1 < r2.X1 && r2.X1 < r1.X2 && r1.Y1 < r2.Y2 && r2.Y2 < r1.Y1)
+            if (r1.X1 <= r2.X1 &&
+                r2.X1 <= r1.X2 &&
+                r1.Y1 <= r2.Y2 &&
+                r2.Y2 <= r1.Y1)
             {
-                return new Rectangle(r2.X1, r2.Y2, Math.Min(r1.X2, r2.X2), Math.Min(r1.Y1, r2.Y1));
+                return new Rectangle(r2.X1,
+                                     r2.Y2,
+                                     Math.Min(r1.X2, r2.X2),
+                                     Math.Min(r1.Y1, r2.Y1));
             }
 
-            if (r2.X1 < r1.X1 && r2.X1 < r1.X2 && r2.Y1 < r1.Y2 && r2.Y2 < r1.Y1)
+            if (r2.X1 <= r1.X1 &&
+                r2.X1 <= r1.X2 &&
+                r2.Y1 <= r1.Y2 &&
+                r2.Y2 <= r1.Y1)
             {
-                return new Rectangle(r1.X1, r1.Y2, Math.Min(r1.X2, r2.X2), Math.Min(r1.Y1, r2.Y1));
+                return new Rectangle(r1.X1,
+                                     r1.Y2,
+                                     Math.Min(r1.X2, r2.X2),
+                                     Math.Min(r1.Y1, r2.Y1));
             }
 
             return null;
