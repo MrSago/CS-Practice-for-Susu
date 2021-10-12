@@ -45,8 +45,9 @@ namespace lab3
             };
 
             airline.Add(new AirPass(AirplaneType.AirbusA310, "RA-001", 120, crew1));
-            airline.Add(new AirCargo(AirplaneType.Boeing737, "RA-003", 4000, crew2));
+            airline.Add(new AirCargo(AirplaneType.Boeing747, "RA-003", 4000, crew2));
             airline.Add(new AirCargo(AirplaneType.Boeing747, "RA-006", 4000, crew3));
+            airline.Add(new AirCargo(AirplaneType.Boeing747, "RA-061", 4000, crew1));
             airline.Add(new AirCargo(AirplaneType.Boeing737, "RA-007", 9000, crew1));
             airline.Add(new AirPass(AirplaneType.AirbusA320, "RA-008", 500, crew3));
             airline.Add(new AirCargo(AirplaneType.Boeing747, "RA-009", 5555, crew2));
@@ -62,7 +63,7 @@ namespace lab3
             airline.SortByWeight();
             foreach (Airplane plane in airline.Airplanes)
             {
-                Console.WriteLine($"\n{plane.Type} | {plane.Number} | {plane.Weight}");
+                Console.WriteLine($"\n{plane.Type} | {plane.NumberRace} | {plane.Weight}");
                 Console.WriteLine("Crew list:");
                 foreach (string member in plane.Crew)
                 {
@@ -78,7 +79,7 @@ namespace lab3
             List<Airplane> planes = airline.Airplanes as List<Airplane>;
             for (int i = 0; i < 6 && i < planes.Count; ++i)
             {
-                Console.WriteLine($"\n{planes[i].Type} | {planes[i].Number} | {planes[i].Weight}");
+                Console.WriteLine($"\n{planes[i].Type} | {planes[i].NumberRace} | {planes[i].Weight}");
                 Console.WriteLine("Crew list:");
                 foreach (string member in planes[i].Crew)
                 {
@@ -94,7 +95,7 @@ namespace lab3
             List<Airplane> planes = airline.Airplanes as List<Airplane>;
             for (int i = planes.Count - 1; i > planes.Count - 3 && i > 0; --i)
             {
-                Console.WriteLine($"\nNumber: {planes[i].Number}");
+                Console.WriteLine($"\nNumber: {planes[i].NumberRace}");
             }
         }
 

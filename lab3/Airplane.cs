@@ -28,17 +28,17 @@ namespace lab3
 
         protected AirplaneType _airplaneType;
         protected double _emptyWeight;
-        protected string _number;
-        protected List<string> _crew = new();
+        protected string _numberRace;
+        protected IEnumerable<string> _crew;
 
         protected Airplane() { }
 
-        public Airplane(AirplaneType type, string number, List<string> crew)
+        public Airplane(AirplaneType type, string number, IEnumerable<string> crew)
         {
             _airplaneType = type;
             _emptyWeight = _emptyWeights[type];
-            _number = number;
-            _crew = crew.ToList();
+            _numberRace = number;
+            _crew = crew;
         }
 
         public AirplaneType Type
@@ -53,8 +53,8 @@ namespace lab3
                 _emptyWeight = _emptyWeights[value];
             }
         }
-        public string Number { get => _number; set => _number = value; }
-        public List<string> Crew { get => _crew; set => _crew = value; }
+        public string NumberRace { get => _numberRace; set => _numberRace = value; }
+        public IEnumerable<string> Crew { get => _crew; set => _crew = value; }
         public abstract double Weight { get; }
     }
 

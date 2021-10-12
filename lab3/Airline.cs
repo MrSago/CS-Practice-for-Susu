@@ -10,49 +10,41 @@ namespace lab3
     class Airline
     {
         private readonly List<Airplane> _planes = new();
+        private double _sumWeight = 0.0;
+        private double _avarageWeight = 0.0;
+
+        private double _calcWieght()
+        {
+            double weights = 0;
+            foreach (var plane in _planes)
+            {
+                weights += plane.Weight;
+            }
+            return weights;
+        }
 
         public void Add(Airplane plane)
         {
-            if (plane == null || plane.Type == AirplaneType.None || string.IsNullOrEmpty(plane.Number) || !plane.Crew.Any())
+            if (plane == null || plane.Type == AirplaneType.None || string.IsNullOrEmpty(plane.NumberRace) || !plane.Crew.Any())
             {
                 throw new ArgumentException(null, nameof(plane));
             }
             _planes.Add(plane);
+            _sumWeight = _calcWieght();
+            _avarageWeight = _planes.Count > 0 ? _sumWeight / _planes.Count : 0.0;
         }
 
-        public IEnumerable<Airplane> Airplanes
-        {
-            get
-            {
-                return _planes;
-            }
-        }
-        public double SumWeight
-        {
-            get
-            {
-                double price = 0;
-                foreach(var plane in _planes)
-                {
-                    price += plane.Weight;
-                }
-                return price;
-            }
-        }
-        public double AvarageWeight
-        {
-            get
-            {
-                return SumWeight / _planes.Count;
-            }
-        }
+        public IEnumerable<Airplane> Airplanes => _planes;
+
+        public double SumWeight => _sumWeight;
+        public double AvarageWeight => _avarageWeight;
 
         private class ByWeightComparer : IComparer<Airplane>
         {
             public int Compare(Airplane x, Airplane y)
             {
                 int val = x.Weight.CompareTo(y.Weight);
-                return val == 0 ? x.Number.CompareTo(y.Number) : val;
+                return val == 0 ? x.NumberRace.CompareTo(y.NumberRace) : val;
             }
         }
         public void SortByWeight()
