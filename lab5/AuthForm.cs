@@ -1,15 +1,10 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Web;
-using System.Net;
+
 namespace lab5
 {
     public partial class AuthForm : Form
@@ -19,9 +14,11 @@ namespace lab5
         private readonly string _redirectUri = "https://oauth.vk.com/blank.html";
         private readonly string _loginUri = "https://oauth.vk.com/login";
 
+        private readonly string _version = "5.131";
         private int _clientId = 7979675;
+        private string _token = string.Empty;
 
-        public string Token { get; private set; }
+        public IApiMethods Api => new VkApi(_version, _clientId, _token);
 
         public AuthForm()
         {
@@ -34,7 +31,9 @@ namespace lab5
                 new Uri(  $"{_authorizeUri}?"
                         + $"client_id={_clientId}&display=page&redirect_uri={_redirectUri}"
                         +  "&scope=friends"
-                        + $"&response_type=token&v={Program.ApiVkVer}&state=123456"));
+                        + $"&response_type=token&v={_version}&state=123456"
+                )
+            );
         }
 
         private void WebBrowserNavigated(object sender, WebBrowserNavigatedEventArgs e)
@@ -57,7 +56,7 @@ namespace lab5
                               }
                              ).ToDictionary(v => v.Name, v => v.Value);
 
-            Token = parameters["access_token"];
+            _token = parameters["access_token"];
             DialogResult = DialogResult.Yes;
         }
     }

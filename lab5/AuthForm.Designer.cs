@@ -18,27 +18,33 @@ namespace lab5
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-
             this._webBrowser = new System.Windows.Forms.WebBrowser();
+            this.SuspendLayout();
+            // 
+            // _webBrowser
+            // 
             this._webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this._webBrowser.Location = new System.Drawing.Point(0, 0);
-            this._webBrowser.Name = "webBrowser";
+            this._webBrowser.Name = "_webBrowser";
             this._webBrowser.Size = new System.Drawing.Size(700, 400);
             this._webBrowser.TabIndex = 0;
             this._webBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowserNavigated);
-
+            // 
+            // AuthForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(700, 400);
+            this.Controls.Add(this._webBrowser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Name = "AuthForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 400);
-            this.Text = "AuthForm";
-            this.Controls.Add(this._webBrowser);
+            this.Text = "VK App - Авторизация";
             this.Shown += new System.EventHandler(this.AuthFormShown);
             this.ResumeLayout(false);
+
         }
 
         #endregion

@@ -6,7 +6,6 @@ namespace lab5
 {
     static class Program
     {
-        public static readonly string ApiVkVer = "5.131";
         public static bool Relogin = false;
 
         [STAThread]
@@ -21,7 +20,7 @@ namespace lab5
                 using AuthForm authForm = new();
                 if (authForm.ShowDialog() == DialogResult.Yes)
                 {
-                    Application.Run(new MainForm(authForm.Token));
+                    Application.Run(new MainForm(authForm.Api));
                 }
             }
             while (Relogin);
