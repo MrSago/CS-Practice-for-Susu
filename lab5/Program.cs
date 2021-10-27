@@ -7,6 +7,7 @@ namespace lab5
     static class Program
     {
         public static readonly string ApiVkVer = "5.131";
+        public static bool Relogin = false;
 
         [STAThread]
         static void Main()
@@ -14,11 +15,16 @@ namespace lab5
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.SetCompatibleTextRenderingDefault(false);
             Application.EnableVisualStyles();
-            using AuthForm authForm = new();
-            if (authForm.ShowDialog() == DialogResult.Yes)
+            do
             {
-                Application.Run(new MainForm(authForm.Token));
+                Relogin = false;
+                using AuthForm authForm = new();
+                if (authForm.ShowDialog() == DialogResult.Yes)
+                {
+                    Application.Run(new MainForm(authForm.Token));
+                }
             }
+            while (Relogin);
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Web;
-
+using System.Net;
 namespace lab5
 {
     public partial class AuthForm : Form
