@@ -10,11 +10,11 @@ namespace lab5
             Reset();
         }
 
-        public string Name { set { _product.SetName(value); } }
-        public string Status { set { _product.SetStatus(value); } }
-        public string Image { set { _product.SetImage(value); } }
-        public string LastSeen { set { _product.SetLastSeen(value); } }
-        public string Another { set { _product.SetAnother(value); } }
+        public string Name { set { _product.Name = value; } }
+        public string Status { set { _product.Status = value; } }
+        public string Image { set { _product.Image = value; } }
+        public string LastSeen { set { _product.LastSeen = value; } }
+        public string Another { set { _product.Another = value; } }
 
         public UserInfo GetProduct()
         {

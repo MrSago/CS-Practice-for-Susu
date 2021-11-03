@@ -24,7 +24,7 @@ namespace lab5
 
             try
             {
-                JObject obj = _api.Request("friends.get", "order=hints", "fields=bdate,city,status");
+                JObject obj = _api.FriendsGet("bdate,city,status");
                 friendsInfo = obj["response"]["items"];
                 cnt = int.Parse(obj.SelectToken("response.count").ToString());
             }
@@ -92,18 +92,15 @@ namespace lab5
 
         private void _dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            JToken info = _api.Request(
-                "users.get",
-                $"user_ids={_dataGridView1.Rows[e.RowIndex].Cells[0].Value}",
-                "fields=status,photo_200,last_seen"
-            )["response"][0];
+            JToken info = _api.UsersGet(_dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString(), "status,photo_200,last_seen");
 
-            VkUserInfoBuilder builder = new();
+            IUserInfoBuilder builder = new VkUserInfoBuilder();
             builder.Name = info["first_name"]?.ToString() + ' ' + info["last_name"]?.ToString();
             builder.Status = info["status"]?.ToString();
             builder.Image = info["photo_200"]?.ToString();
             try { builder.LastSeen = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(double.Parse(info["last_seen"]["time"].ToString())).ToLocalTime().ToString(); } catch { }
-            new UserInfoForm(builder.GetProduct()).ShowDialog();
+
+            _ = new UserInfoForm(builder.GetProduct()).ShowDialog();
         }
     }
 }

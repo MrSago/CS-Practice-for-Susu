@@ -8,6 +8,7 @@ namespace lab5
         string Image { set; }
         string LastSeen { set; }
         string Another { set; }
+        UserInfo GetProduct();
     }
 }
 

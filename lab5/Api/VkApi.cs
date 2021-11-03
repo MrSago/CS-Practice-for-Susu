@@ -35,6 +35,16 @@ namespace lab5
             Uri request = new(_vkmethod + method + '?' + string.Join('&', param) + $"&access_token={_token}&v={_version}");
             return JObject.Parse(_client.DownloadString(request));
         }
+
+        public JObject FriendsGet(string fields)
+        {
+            return Request("friends.get", "order=hints", $"fields={fields}");
+        }
+
+        public JToken UsersGet(string id, string fields)
+        {
+            return Request("users.get", $"user_ids={id}", $"fields={fields}")["response"][0];
+        }
     }
 }
 

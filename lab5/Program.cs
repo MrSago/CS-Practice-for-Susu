@@ -17,7 +17,7 @@ namespace lab5
             do
             {
                 Relogin = false;
-                using AuthForm authForm = new();
+                using VkAuthForm authForm = new();
                 if (authForm.ShowDialog() == DialogResult.Yes)
                 {
                     Application.Run(new MainForm(authForm.Api));

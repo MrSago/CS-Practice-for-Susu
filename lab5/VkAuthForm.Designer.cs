@@ -1,7 +1,7 @@
 ﻿
 namespace lab5
 {
-    partial class AuthForm
+    partial class VkAuthForm
     {
         private System.ComponentModel.IContainer components = null;
 

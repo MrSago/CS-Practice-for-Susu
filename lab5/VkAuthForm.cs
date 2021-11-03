@@ -7,7 +7,7 @@ using System.Web;
 
 namespace lab5
 {
-    public partial class AuthForm : Form
+    public partial class VkAuthForm : Form
     {
         private readonly string _authorizeUri = "https://oauth.vk.com/authorize";
         private readonly string _authRedirUri = "https://oauth.vk.com/auth_redirect";
@@ -20,7 +20,7 @@ namespace lab5
 
         public IApiMethods Api => new VkApi(_version, _clientId, _token);
 
-        public AuthForm()
+        public VkAuthForm()
         {
             InitializeComponent();
         }
