@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
-using System.Runtime.InteropServices;
+using lab5.Extensions;
 
 namespace lab5
 {
@@ -62,19 +62,6 @@ namespace lab5
             );
         }
 
-        private static class WinInetHelper
-        {
-            [DllImport("wininet.dll", CharSet = CharSet.Auto, SetLastError = true)]
-            private static extern bool InternetSetOption(int hInternet, int dwOption, IntPtr lpBuffer, int dwBufferLength);
-
-            public static unsafe bool SupressCookiePersist()
-            {
-                int option = 3;
-                int* optionPtr = &option;
-                return InternetSetOption(0, 81, new IntPtr(optionPtr), sizeof(int));
-            }
-        }
-
         private void LogoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!WinInetHelper.SupressCookiePersist())
@@ -94,11 +81,14 @@ namespace lab5
         {
             JToken info = _api.UsersGet(_dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString(), "status,photo_200,last_seen");
 
-            IUserInfoBuilder builder = new VkUserInfoBuilder();
+            VkUserInfoBuilder builder = new();
+
             builder.Name = info["first_name"]?.ToString() + ' ' + info["last_name"]?.ToString();
             builder.Status = info["status"]?.ToString();
             builder.Image = info["photo_200"]?.ToString();
-            try { builder.LastSeen = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(double.Parse(info["last_seen"]["time"].ToString())).ToLocalTime().ToString(); } catch { }
+
+            DateTime last_seen = UnixTimeToDateTime.Convert(info["last_seen"]["time"].ToString());
+            builder.LastSeen = last_seen.ToString();
 
             _ = new UserInfoForm(builder.GetProduct()).ShowDialog();
         }
