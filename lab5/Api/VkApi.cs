@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using lab5.Extensions;
 
 namespace lab5
 {
@@ -36,15 +37,27 @@ namespace lab5
             return JObject.Parse(_client.DownloadString(request));
         }
 
+        public IUsersGetParamsBuilder UsersGetParamsBuilder => new VkUsersGetParamsBuilder();
+
         public JObject FriendsGet(string fields)
         {
             return Request("friends.get", "order=hints", $"fields={fields}");
         }
 
-        public JToken UsersGet(string id, string fields)
+        public UserInfo UsersGet(string id, UsersGetParams param)
         {
-            return Request("users.get", $"user_ids={id}", $"fields={fields}")["response"][0];
+            JToken info = Request("users.get", $"user_ids={id}", $"fields={param.Status + ',' + param.Photo + ',' + param.LastSeen}")["response"][0];
+            VkUserInfoBuilder builder = new();
+
+            builder.Name = info["first_name"]?.ToString() + ' ' + info["last_name"]?.ToString();
+            builder.Status = info["status"]?.ToString();
+            builder.Image = info["photo_200"]?.ToString();
+
+            DateTime last_seen = UnixTimeToDateTime.Convert(info?["last_seen"]?["time"].ToString());
+            builder.LastSeen = last_seen.ToString();
+            return builder.GetProduct();
         }
     }
 }
+
 

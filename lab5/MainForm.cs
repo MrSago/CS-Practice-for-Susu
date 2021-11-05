@@ -79,18 +79,23 @@ namespace lab5
 
         private void _dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            JToken info = _api.UsersGet(_dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString(), "status,photo_200,last_seen");
+            string user_id = _dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
 
-            VkUserInfoBuilder builder = new();
+            IUsersGetParamsBuilder paramBuilder = _api.UsersGetParamsBuilder;
+            paramBuilder.SetStatus();
+            paramBuilder.SetPhoto();
+            paramBuilder.SetLastSeen();
+            UsersGetParams param = paramBuilder.GetProduct();
 
-            builder.Name = info["first_name"]?.ToString() + ' ' + info["last_name"]?.ToString();
-            builder.Status = info["status"]?.ToString();
-            builder.Image = info["photo_200"]?.ToString();
+            UserInfo userInfo = _api.UsersGet(user_id, param);
 
-            DateTime last_seen = UnixTimeToDateTime.Convert(info["last_seen"]["time"].ToString());
-            builder.LastSeen = last_seen.ToString();
+            UserInfoForm userInfoForm = new(userInfo);
+            userInfoForm.ShowDialog();
 
-            _ = new UserInfoForm(builder.GetProduct()).ShowDialog();
+
+
+
+            //_ = new UserInfoForm(builder.GetProduct()).ShowDialog();
         }
     }
 }

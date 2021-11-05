@@ -17,8 +17,9 @@ namespace lab5.Extensions
 
         public static DateTime Convert(string unixTimeStamp)
         {
+            double value = unixTimeStamp != null ? double.Parse(unixTimeStamp) : 0.0;
             var result = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            result = result.AddSeconds(double.Parse(unixTimeStamp)).ToLocalTime();
+            result = result.AddSeconds(value).ToLocalTime();
             return result;
         }
     }

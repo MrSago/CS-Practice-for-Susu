@@ -5,9 +5,13 @@ namespace lab5
 {
     public interface IApiMethods
     {
-        JObject Request(string method, params string[] param);
-        JObject FriendsGet(string fields);
-        JToken UsersGet(string id, string fields);
+        public JObject Request(string method, params string[] param);
+
+
+        public JObject FriendsGet(string fields);
+
+        public IUsersGetParamsBuilder UsersGetParamsBuilder { get; }
+        public UserInfo UsersGet(string id, UsersGetParams param);
     }
 }
 

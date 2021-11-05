@@ -3,7 +3,6 @@ namespace lab5
 {
     public struct UserInfo
     {
-
         public string Name;
         public string Status;
         public string Image;

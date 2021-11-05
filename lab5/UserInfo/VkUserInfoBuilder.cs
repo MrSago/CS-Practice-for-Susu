@@ -1,7 +1,7 @@
 ﻿
 namespace lab5
 {
-    class VkUserInfoBuilder : IUserInfoBuilder
+    public class VkUserInfoBuilder : IUserInfoBuilder
     {
         private UserInfo _product;
 
