@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using lab5.Api.Methods.UsersGet;
 
-namespace lab5
+namespace lab5.Vk.Methods.UsersGet
 {
     public class VkUsersGetParamsBuilder : IUsersGetParamsBuilder
     {
-        private UsersGetParams _product;
+        private SUsersGetParams _product;
 
         public VkUsersGetParamsBuilder()
         {
@@ -29,9 +26,9 @@ namespace lab5
         {
             _product.LastSeen = "last_seen";
         }
-        public UsersGetParams GetProduct()
+        public SUsersGetParams GetProduct()
         {
-            UsersGetParams userInfo = _product;
+            SUsersGetParams userInfo = _product;
             Reset();
             return userInfo;
         }

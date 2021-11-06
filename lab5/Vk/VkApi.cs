@@ -3,11 +3,17 @@ using System;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using lab5.Extensions;
 
-namespace lab5
+using lab5.Api;
+using lab5.Api.Methods.FriendsGet;
+using lab5.Api.Methods.UsersGet;
+
+using lab5.Vk.Methods.FriendsGet;
+using lab5.Vk.Methods.UsersGet;
+
+namespace lab5.Vk
 {
-    public class VkApi : IApiMethods
+    public class VkApi : IApiRequests
     {
         private readonly string _vkmethod = "https://api.vk.com/method/";
         private readonly WebClient _client = new() { Encoding = Encoding.UTF8 };
@@ -15,6 +21,9 @@ namespace lab5
         private readonly string _version;
         private readonly int _clientId;
         private readonly string _token;
+
+        private readonly IFriendsGet _friendsGet;
+        private readonly IUsersGet _usersGet;
 
         public VkApi(string version, int cliendId, string token)
         {
@@ -24,6 +33,9 @@ namespace lab5
             _version = version;
             _clientId = cliendId;
             _token = token;
+
+            _friendsGet = new VkFriendsGet(this, new VkFriendsGetParamsBuilder());
+            _usersGet = new VkUsersGet(this, new VkUsersGetParamsBuilder());
 
             if (Request("account.getInfo").ContainsKey("error"))
             {
@@ -37,27 +49,9 @@ namespace lab5
             return JObject.Parse(_client.DownloadString(request));
         }
 
-        public IUsersGetParamsBuilder UsersGetParamsBuilder => new VkUsersGetParamsBuilder();
+        public IFriendsGet FriendsGet => _friendsGet;
 
-        public JObject FriendsGet(string fields)
-        {
-            return Request("friends.get", "order=hints", $"fields={fields}");
-        }
-
-        public UserInfo UsersGet(string id, UsersGetParams param)
-        {
-            JToken info = Request("users.get", $"user_ids={id}", $"fields={param.Status + ',' + param.Photo + ',' + param.LastSeen}")["response"][0];
-            VkUserInfoBuilder builder = new();
-
-            builder.Name = info["first_name"]?.ToString() + ' ' + info["last_name"]?.ToString();
-            builder.Status = info["status"]?.ToString();
-            builder.Image = info["photo_200"]?.ToString();
-
-            DateTime last_seen = UnixTimeToDateTime.Convert(info?["last_seen"]?["time"].ToString());
-            builder.LastSeen = last_seen.ToString();
-            return builder.GetProduct();
-        }
+        public IUsersGet UsersGet => _usersGet;
     }
 }
-
 

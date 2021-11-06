@@ -5,6 +5,9 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Web;
 
+using lab5.Api;
+using lab5.Vk;
+
 namespace lab5
 {
     public partial class VkAuthForm : Form
@@ -18,7 +21,7 @@ namespace lab5
         private int _clientId = 7979675;
         private string _token = string.Empty;
 
-        public IApiMethods Api => new VkApi(_version, _clientId, _token);
+        public IApiRequests Api => new VkApi(_version, _clientId, _token);
 
         public VkAuthForm()
         {
