@@ -1,16 +1,20 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using Newtonsoft.Json.Linq;
+
+using lab5.Api;
+using lab5.Api.Methods.FriendsGet;
+using lab5.Api.Methods.UsersGet;
 using lab5.Extensions;
 
 namespace lab5
 {
     public partial class MainForm : Form
     {
-        private readonly IApiMethods _api;
+        private readonly IApiRequests _api;
 
-        public MainForm(IApiMethods api)
+        public MainForm(IApiRequests api)
         {
             _api = api;
             InitializeComponent();
@@ -19,14 +23,16 @@ namespace lab5
 
         private void InitTable()
         {
-            JToken friendsInfo;
-            int cnt;
+            IFriendsGetParamsBuilder paramsBuilder = _api.FriendsGet.ParamsBuilder;
+            paramsBuilder.SetBDate();
+            paramsBuilder.SetCity();
+            paramsBuilder.SetStatus();
+            SFriendsGetParams @params = paramsBuilder.GetProduct();
 
+            IEnumerable<SUserInfo> friendsInfo;
             try
             {
-                JObject obj = _api.FriendsGet("bdate,city,status");
-                friendsInfo = obj["response"]["items"];
-                cnt = int.Parse(obj.SelectToken("response.count").ToString());
+                 friendsInfo = _api.FriendsGet.Invoke(@params);
             }
             catch
             {
@@ -39,15 +45,14 @@ namespace lab5
                 return;
             }
 
-            for (int i = 0; i < cnt; ++i)
+            foreach (SUserInfo user in friendsInfo)
             {
                 DataGridViewRow row = (DataGridViewRow)_dataGridView1.Rows[0].Clone();
-                row.Cells[0].Value = friendsInfo[i]["id"]?.ToString();
-                row.Cells[1].Value = friendsInfo[i]["first_name"]?.ToString() + ' ' +
-                                     friendsInfo[i]["last_name"]?.ToString();
-                row.Cells[2].Value = friendsInfo[i]["bdate"]?.ToString();
-                row.Cells[3].Value = friendsInfo[i]["city"]?["title"]?.ToString();
-                row.Cells[4].Value = friendsInfo[i]["status"]?.ToString();
+                row.Cells[0].Value = user.Id;
+                row.Cells[1].Value = user.FirstName + ' ' + user.LastName;
+                row.Cells[2].Value = user.BDate;
+                row.Cells[3].Value = user.City;
+                row.Cells[4].Value = user.Status;
                 _dataGridView1.Rows.Add(row);
             }
         }
@@ -79,18 +84,32 @@ namespace lab5
 
         private void _dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            JToken info = _api.UsersGet(_dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString(), "status,photo_200,last_seen");
+            string user_id = _dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
 
-            VkUserInfoBuilder builder = new();
+            IUsersGetParamsBuilder paramsBuilder = _api.UsersGet.ParamsBuilder;
+            paramsBuilder.SetStatus();
+            paramsBuilder.SetPhoto();
+            paramsBuilder.SetLastSeen();
+            SUsersGetParams @params = paramsBuilder.GetProduct();
 
-            builder.Name = info["first_name"]?.ToString() + ' ' + info["last_name"]?.ToString();
-            builder.Status = info["status"]?.ToString();
-            builder.Image = info["photo_200"]?.ToString();
+            SUserInfo userInfo;
+            try
+            {
+                userInfo = _api.UsersGet.Invoke(user_id, @params);
+            }
+            catch
+            {
+                MessageBox.Show(
+                    "Ошибка получения данных о пользователе",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
 
-            DateTime last_seen = UnixTimeToDateTime.Convert(info["last_seen"]["time"].ToString());
-            builder.LastSeen = last_seen.ToString();
-
-            _ = new UserInfoForm(builder.GetProduct()).ShowDialog();
+            UserInfoForm userInfoForm = new(userInfo);
+            userInfoForm.ShowDialog();
         }
     }
 }
