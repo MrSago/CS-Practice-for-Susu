@@ -138,7 +138,9 @@ namespace lab5
             this.ClientSize = new System.Drawing.Size(1007, 530);
             this.Controls.Add(this._dataGridView1);
             this.Controls.Add(this._menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this._menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "VK App - Список друзей";
             ((System.ComponentModel.ISupportInitialize)(this._dataGridView1)).EndInit();

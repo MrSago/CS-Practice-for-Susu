@@ -84,6 +84,8 @@ namespace lab5
 
         private void _dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) { return; }
+
             string user_id = _dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
 
             IUsersGetParamsBuilder paramsBuilder = _api.UsersGet.ParamsBuilder;

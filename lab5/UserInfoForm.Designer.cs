@@ -99,6 +99,8 @@ namespace lab5
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "UserInfoForm";
             this.Text = "VkApp - Информация о пользователе";
             this.mainPanel.ResumeLayout(false);
